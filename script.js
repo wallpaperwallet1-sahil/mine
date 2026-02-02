@@ -2,22 +2,50 @@ const noBtn = document.getElementById("noBtn");
 const yesBtn = document.getElementById("yesBtn");
 const celebration = document.getElementById("celebration");
 
-// NO button runs away
-noBtn.addEventListener("mouseover", () => {
-  const x = Math.random() * 250;
-  const y = Math.random() * 50;
+let x = 50;
+let y = 20;
+let dx = 0.15;
+let dy = 0.12;
+
+// Slow continuous floating movement
+function floatNoButton() {
+  const container = document.querySelector(".buttons");
+  const maxX = container.offsetWidth - noBtn.offsetWidth;
+  const maxY = container.offsetHeight - noBtn.offsetHeight;
+
+  x += dx;
+  y += dy;
+
+  if (x <= 0 || x >= maxX) dx *= -1;
+  if (y <= 0 || y >= maxY) dy *= -1;
+
   noBtn.style.left = x + "px";
   noBtn.style.top = y + "px";
+
+  requestAnimationFrame(floatNoButton);
+}
+
+floatNoButton();
+
+// If user tries to hover / touch NO → it escapes faster
+noBtn.addEventListener("mouseenter", () => {
+  dx = (Math.random() > 0.5 ? 1 : -1) * 1.2;
+  dy = (Math.random() > 0.5 ? 1 : -1) * 1.2;
 });
 
-// YES button
+noBtn.addEventListener("touchstart", () => {
+  dx = (Math.random() > 0.5 ? 1 : -1) * 1.2;
+  dy = (Math.random() > 0.5 ? 1 : -1) * 1.2;
+});
+
+// YES button click
 yesBtn.addEventListener("click", () => {
   document.querySelector(".buttons").style.display = "none";
   celebration.classList.remove("hidden");
   launchConfetti();
 });
 
-// Heart trail on mouse move
+// Heart trail
 document.addEventListener("mousemove", (e) => {
   const heart = document.createElement("div");
   heart.className = "heart";
@@ -26,12 +54,10 @@ document.addEventListener("mousemove", (e) => {
   heart.style.top = e.clientY + "px";
   document.body.appendChild(heart);
 
-  setTimeout(() => {
-    heart.remove();
-  }, 1200);
+  setTimeout(() => heart.remove(), 1200);
 });
 
-// Simple confetti
+// Confetti
 function launchConfetti() {
   for (let i = 0; i < 60; i++) {
     const conf = document.createElement("div");
