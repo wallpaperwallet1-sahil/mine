@@ -38,11 +38,19 @@ noBtn.addEventListener("touchstart", () => {
   dy = (Math.random() > 0.5 ? 1 : -1) * 1.2;
 });
 
-// YES button click
 yesBtn.addEventListener("click", () => {
   document.querySelector(".buttons").style.display = "none";
-  celebration.classList.remove("hidden");
-  launchConfetti();
+
+  const heartbeat = document.getElementById("heartbeat");
+  heartbeat.classList.remove("hidden");
+
+  setTimeout(() => {
+    heartbeat.classList.add("hidden");
+    celebration.classList.remove("hidden");
+    typeMessage();
+    showSinceCounter();
+    launchConfetti();
+  }, 2000);
 });
 
 // Heart trail
@@ -83,3 +91,38 @@ style.innerHTML = `
   }
 }`;
 document.head.appendChild(style);
+
+// Typing effect
+const message = `Yayyy 🥰
+You just made my heart do a happy dance 💃❤️
+
+Our 3rd Valentine together and somehow you make it sweeter every time 🌹
+Happy Valentine’s Day, M.K 💕
+— Sahil`;
+
+function typeMessage() {
+  const target = document.getElementById("typedText");
+  let i = 0;
+
+  const typing = setInterval(() => {
+    target.innerHTML += message[i] === "\n" ? "<br>" : message[i];
+    i++;
+    if (i >= message.length) clearInterval(typing);
+  }, 40);
+}
+
+// Since counter (change start date if needed)
+function showSinceCounter() {
+  const startDate = new Date("2022-02-14"); // ❤️ change if needed
+  const today = new Date();
+  const days = Math.floor((today - startDate) / (1000 * 60 * 60 * 24));
+
+  document.getElementById("sinceCounter").innerText =
+    `Loving you since ${days} days 💕`;
+}
+
+// Secret message
+document.getElementById("secretHeart").addEventListener("click", () => {
+  document.getElementById("secretMsg").classList.toggle("hidden");
+});
+
