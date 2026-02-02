@@ -97,28 +97,3 @@ button {
     transform: translateY(-30px);
   }
 }
-/* Mobile Optimization */
-@media (max-width: 600px) {
-  .container {
-    padding: 36px 26px;
-    max-width: 95%;
-  }
-
-  .intro {
-    font-size: 26px;
-  }
-
-  .question {
-    font-size: 22px;
-  }
-
-  button {
-    font-size: 18px;
-    padding: 14px 24px;
-  }
-
-  #celebration {
-    font-size: 18px;
-    line-height: 1.5;
-  }
-}
